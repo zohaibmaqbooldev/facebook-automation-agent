@@ -11,6 +11,9 @@ export async function GET(request: Request) {
   if (!user) return NextResponse.json({ error: "Admin authentication required." }, { status: 401 });
   const parsed = querySchema.safeParse({ q: new URL(request.url).searchParams.get("q") || "software developer" });
   if (!parsed.success) return NextResponse.json({ error: "Search query is too long." }, { status: 400 });
+  const { data: allowed, error: limitError } = await db.rpc("claim_job_search");
+  if (limitError) return NextResponse.json({ error: "Could not verify the public-search limit. Apply the latest Supabase migration." }, { status: 503 });
+  if (!allowed) return NextResponse.json({ error: "Public search is limited to one request every six hours to respect the source API guidance (maximum four per day)." }, { status: 429 });
   try {
     const url = new URL("https://remotive.com/api/remote-jobs");
     url.searchParams.set("search", parsed.data.q || "software developer");

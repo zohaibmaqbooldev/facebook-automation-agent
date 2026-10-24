@@ -61,7 +61,7 @@ subst X: /D
 
 ## 8) Client & Job Finder
 
-- Dashboard mein `Client & Job Finder` kholein. `Search live remote jobs` Remotive ki public API par manual search karta hai; data live source se aata hai magar listing purani/closed ho sakti hai. Har job ke liye original Remotive link khol kar eligibility check karein aur source attribution dekhein. Remotive ke public API ki salah ke mutabiq search din mein 4 se zyada baar na chalayein.
+- Dashboard mein `Client & Job Finder` kholein. `Search live remote jobs` Remotive ki public API par manual search karta hai; data live source se aata hai magar listing purani/closed ho sakti hai. Har job ke liye original Remotive link khol kar eligibility check karein aur source attribution dekhein. Remotive ke public API ki salah ke mutabiq search din mein 4 se zyada baar nahin chal sakta; app har search ke darmiyan 6 ghante ka database-enforced waqfa rakhta hai.
 - Remotive listings source attribution/link ke saath dikhaye jate hain. App login-protected job sites scrape nahin karta aur Fiverr, Upwork, LinkedIn ya Facebook accounts se connect nahin hota.
 - `Save lead` se apni Supabase table mein lead save hoti hai. Client/freelance opportunity ke liye manual form use karein. Status aur next action track karein.
 - `Draft proposal` ke liye `GEMINI_API_KEY` darkaar hai. Draft sirf dashboard mein save hota hai; app kisi ko message/email nahin bhejta. Bhejne se pehle khud review karein. Migration 0002 pehle apply na ho to lead module database error dikhayega.
