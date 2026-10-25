@@ -22,7 +22,7 @@ export async function GET(request: Request) {
   oauthUrl.searchParams.set("redirect_uri", process.env.META_REDIRECT_URI);
   oauthUrl.searchParams.set("state", `${state}.${signState(state)}`);
   oauthUrl.searchParams.set("response_type", "code");
-  oauthUrl.searchParams.set("scope", "pages_show_list,pages_read_engagement,pages_read_user_content,pages_manage_posts,pages_manage_engagement");
+  oauthUrl.searchParams.set("scope", "pages_show_list,business_management,pages_read_engagement,pages_read_user_content,pages_manage_posts,pages_manage_engagement");
 
   const response = NextResponse.redirect(oauthUrl);
   response.cookies.set(STATE_COOKIE, nonce, {

@@ -78,7 +78,8 @@ export async function GET(request: Request) {
           stage = "permission_check";
           const permissions = await readGrantedPermissions(tokenData.access_token);
           const pagesShowListStatus = permissions.data?.find((item) => item.permission === "pages_show_list")?.status || "missing";
-          logDiagnostic("pages_permission_checked", diagnosticId, { pagesShowListStatus });
+          const businessManagementStatus = permissions.data?.find((item) => item.permission === "business_management")?.status || "missing";
+          logDiagnostic("pages_permission_checked", diagnosticId, { pagesShowListStatus, businessManagementStatus });
           result = dashboardRedirect(request, pagesShowListStatus === "granted" ? "no_pages" : "permissions_missing", diagnosticId);
         } else if (pages.data.some((page) => !page.id || !page.name || !page.access_token)) {
           logDiagnostic("pages_response_missing_required_fields", diagnosticId, { pageCount: pages.data.length });
