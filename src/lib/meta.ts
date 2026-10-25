@@ -12,6 +12,7 @@ export async function metaRequest<T>(path: string, token: string, init: RequestI
   return data as T;
 }
 export async function listManagedPages(userToken: string) { return metaRequest<{data:{id:string;name:string;access_token:string;tasks?:string[]}[] }>("me/accounts?fields=id,name,access_token,tasks", userToken); }
+export async function readGrantedPermissions(userToken: string) { return metaRequest<{data:{permission:string;status:string}[] }>("me/permissions", userToken); }
 export async function readPagePosts(pageId: string, token: string) { return metaRequest<{data:{id:string;message?:string;created_time:string;permalink_url?:string}[]}>(`${pageId}/posts?fields=id,message,created_time,permalink_url&limit=25`, token); }
 export async function readPostComments(postId: string, token: string) { return metaRequest<{data:{id:string;message:string;from?:{name:string};created_time:string}[]}>(`${postId}/comments?fields=id,message,from,created_time&limit=50`, token); }
 export async function replyToComment(commentId: string, token: string, message: string) { return metaRequest<{id:string}>(`${commentId}/comments`, token, { method: "POST", body: new URLSearchParams({ message }) }); }

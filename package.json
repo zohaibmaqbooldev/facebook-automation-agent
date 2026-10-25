@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "eslint src",
     "typecheck": "tsc --noEmit",
-    "test": "node src/lib/policy.test.mjs && node src/lib/image-validation.test.mjs && node src/lib/meta-errors.test.mjs"
+    "test": "node src/lib/policy.test.mjs && node src/lib/image-validation.test.mjs && node src/lib/meta-errors.test.mjs && vitest run"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
