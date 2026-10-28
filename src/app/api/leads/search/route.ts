@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { jobSearchLimitMessage } from "@/lib/job-search-errors.mjs";
 
 const querySchema = z.object({ q: z.string().trim().max(80).default("software developer") });
 type RemotiveJob = { id: number; title: string; company_name: string; url: string; description?: string; category?: string; job_type?: string; candidate_required_location?: string; salary?: string; publication_date?: string };
@@ -12,7 +13,10 @@ export async function GET(request: Request) {
   const parsed = querySchema.safeParse({ q: new URL(request.url).searchParams.get("q") || "software developer" });
   if (!parsed.success) return NextResponse.json({ error: "Search query is too long." }, { status: 400 });
   const { data: allowed, error: limitError } = await db.rpc("claim_job_search");
-  if (limitError) return NextResponse.json({ error: "Could not verify the public-search limit. Apply the latest Supabase migration." }, { status: 503 });
+  if (limitError) {
+    console.error("[job-search] public-search limit check failed", { databaseCode: limitError.code || "unknown" });
+    return NextResponse.json({ error: jobSearchLimitMessage(limitError.code) }, { status: 503 });
+  }
   if (!allowed) return NextResponse.json({ error: "Public search is limited to one request every six hours to respect the source API guidance (maximum four per day)." }, { status: 429 });
   try {
     const url = new URL("https://remotive.com/api/remote-jobs");
