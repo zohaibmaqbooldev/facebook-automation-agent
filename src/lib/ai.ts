@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { parsePostIdeas } from "./ai-content.mjs";
 
-const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-3.6-flash";
+const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-3.8-flash";
 
 export class AIConfigurationError extends Error {}
 export class AIProviderError extends Error {}
